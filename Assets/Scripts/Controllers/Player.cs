@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
             ratio = 1;
         }
 
-        //Uses lerp to warp the player towards the target, using the distance of the ratio
+        //Uses lerp to interpolate between player and the target, using the distance of the ratio
         Vector3 warped = Vector3.Lerp(transform.position, target.position, ratio);
 
         //transforms position of the player by the vector
