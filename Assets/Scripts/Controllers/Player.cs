@@ -12,7 +12,13 @@ public class Player : MonoBehaviour
     public float numberOfTrailBombs = 3;
     public int bombTrailSpacing;
     float moved = 0;
+
     float maxRange = 2.5f;
+
+    [Header("MotionProperties")]
+    public float maxSpeed = 5;
+    Vector3 velocity;
+    float accelerationTime = 2;
 
     // Update is called once per frame
     void Update()
@@ -56,6 +62,9 @@ public class Player : MonoBehaviour
         {
            DetectAsteroids(maxRange, asteroidTransforms);
         }
+
+        PlayerMovement();
+         
     }
 
 
@@ -155,6 +164,34 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(transform.position, asteroid.position, Color.green);
             }
         }
+    }
+
+    public void PlayerMovement()
+    {
+        float accelerationRate = maxSpeed / accelerationTime;
+
+        //velocity = Vector3.zero;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            velocity += accelerationRate * Time.deltaTime * Vector3.up;
+        }
+
+        if ( Input.GetKey(KeyCode.DownArrow))
+        {
+            velocity += accelerationRate * Time.deltaTime * Vector3.down;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            velocity += accelerationRate * Time.deltaTime * Vector3.left;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            velocity += accelerationRate * Time.deltaTime * Vector3.right;
+        }
+        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+        transform.position += velocity*Time.deltaTime;
     }
 
 }
