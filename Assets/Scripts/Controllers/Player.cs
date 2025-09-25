@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     float accelerationTime = 2;
     float decelerationTime = 2;
 
+    public bool moving = false;
 
     // "j2" describes tasks from journal 2
     // "j3" describes tasks from journal 3
@@ -68,7 +69,8 @@ public class Player : MonoBehaviour
         }
 
         PlayerMovement();
-         
+      
+
     }
 
 
@@ -174,7 +176,7 @@ public class Player : MonoBehaviour
     {
         float accelerationRate = maxSpeed / accelerationTime;
         float decelerationRate = maxSpeed / decelerationTime;
-        bool moving = false;
+         moving = false;
 
         //velocity = Vector3.zero;
         if (Input.GetKey(KeyCode.UpArrow))
@@ -218,5 +220,7 @@ public class Player : MonoBehaviour
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
         transform.position += velocity * Time.deltaTime;
     }
+
+    
 
 }
