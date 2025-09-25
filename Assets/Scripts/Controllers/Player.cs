@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public float maxSpeed = 5;
     Vector3 velocity;
     float accelerationTime = 2;
+    float decelerationTime = 2;
 
 
     // "j2" describes tasks from journal 2
@@ -172,29 +173,50 @@ public class Player : MonoBehaviour
     public void PlayerMovement()
     {
         float accelerationRate = maxSpeed / accelerationTime;
+        float decelerationRate = maxSpeed / decelerationTime;
+        bool moving = false;
 
         //velocity = Vector3.zero;
         if (Input.GetKey(KeyCode.UpArrow))
         {
             velocity += accelerationRate * Time.deltaTime * Vector3.up;
+            moving = true;
         }
 
         if ( Input.GetKey(KeyCode.DownArrow))
         {
             velocity += accelerationRate * Time.deltaTime * Vector3.down;
+            moving = true;
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             velocity += accelerationRate * Time.deltaTime * Vector3.left;
+            moving = true;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             velocity += accelerationRate * Time.deltaTime * Vector3.right;
+            moving = true;
         }
+        
+        if(moving == false)
+        {
+            if(velocity.magnitude > 0)
+            {
+                velocity -= decelerationRate * Time.deltaTime * velocity.normalized;
+
+                if(velocity.magnitude <=0)
+                {
+                    velocity = Vector3.zero;
+                }
+            }
+        }
+
+
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-        transform.position += velocity*Time.deltaTime;
+        transform.position += velocity * Time.deltaTime;
     }
 
 }
