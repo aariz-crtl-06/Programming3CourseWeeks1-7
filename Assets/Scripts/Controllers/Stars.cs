@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//task 4
+//task 4 
 public class Stars : MonoBehaviour
 {
     public List<Transform> starTransforms;
