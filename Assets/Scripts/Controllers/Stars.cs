@@ -8,11 +8,14 @@ public class Stars : MonoBehaviour
     public float drawingTime = 1f;
 
 
+    private void Start()
+    {
+        DrawConstellation();
+    }
 
 
     void Update()
     {
-        DrawConstellation();
     }
 
     public void DrawConstellation()
@@ -22,10 +25,13 @@ public class Stars : MonoBehaviour
 
     private IEnumerator drawing()
     {
-        for (int i = 0; i < starTransforms.Count; i++)
+
+        while (true) { 
+        for (int i = 0; i < starTransforms.Count-1; i++)
         {
             Debug.DrawLine(starTransforms[i].position, starTransforms[i + 1].position, Color.white, drawingTime);
             yield return new WaitForSeconds(drawingTime);
         }
+    }
     }
 }
