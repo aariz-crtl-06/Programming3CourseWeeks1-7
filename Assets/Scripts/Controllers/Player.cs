@@ -174,11 +174,13 @@ public class Player : MonoBehaviour
     //j3 - task 1
     public void PlayerMovement()
     {
+        //Creates acceleration and deceleration rates
         float accelerationRate = maxSpeed / accelerationTime;
         float decelerationRate = maxSpeed / decelerationTime;
          moving = false;
 
-        //velocity = Vector3.zero;
+        //Depending on key pressed for movement, velocity adds acceleration rate along side vector position and time for a gradual increase in speed 
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             velocity += accelerationRate * Time.deltaTime * Vector3.up;
@@ -202,21 +204,23 @@ public class Player : MonoBehaviour
             velocity += accelerationRate * Time.deltaTime * Vector3.right;
             moving = true;
         }
-        
-        if(moving == false)
+
+        //Once not moving anymore, deceleration rate is subtracted from velocity for a gradual decrease in speed
+        if (moving == false)
         {
-            if(velocity.magnitude > 0)
+            //While velocity is greater than 0, keep decelerating
+            if (velocity.magnitude > 0)
             {
                 velocity -= decelerationRate * Time.deltaTime * velocity.normalized;
 
-                if(velocity.magnitude <=0)
+                //Once velocity is 0, set it to 0 so it doesn't go into negative 
+                if (velocity.magnitude <=0)
                 {
                     velocity = Vector3.zero;
                 }
             }
         }
-
-
+        //Clamp magnitude so velocity doesn't exceed max speed
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
         transform.position += velocity * Time.deltaTime;
     }
