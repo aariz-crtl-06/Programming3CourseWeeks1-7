@@ -26,8 +26,35 @@ public class Player : MonoBehaviour
     // "j2" describes tasks from journal 2
     // "j3" describes tasks from journal 3
 
+
+    public float radius = 5f;
+    public float numberOfSides = 6f;
+
+    List<Vector3> circlePoints = new List<Vector3>();
+
     void Update()
     {
+        //Green Circle
+        for (int i = 0; i < numberOfSides -1; i++)
+        {
+            float x = Random.Range(1, 10) ;
+            float y = Random.Range(1, 10);
+
+            Vector3 endPoint = new Vector3(x, y, 0);
+            circlePoints.Add (endPoint);
+            Debug.DrawLine(circlePoints[i] + transform.position, circlePoints[i + 1] + transform.position, Color.green);
+        }
+
+        
+
+
+
+
+
+
+
+
+        // --------------------------------------------------------------
 
         //j2 - task 1 - part a
         //When b is pressed, run the function and pass it a vector with an offset of 0,1
@@ -70,6 +97,9 @@ public class Player : MonoBehaviour
 
         PlayerMovement();
       
+       
+
+
 
     }
 
