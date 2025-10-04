@@ -39,10 +39,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //to track space between player and enemy
         float dist = Vector3.Distance(transform.position, enemyTransform.position);
 
+        //List for each of the points in circle
         List<Vector3> circlePoints = new List<Vector3>();
 
+        //Loop to convert degrees into radients, then creates the points on circle using trig
         for (int i = 0; i < numberOfSides; i++)
         {
             float degrees = 360 / numberOfSides * i;
@@ -55,7 +58,7 @@ public class Player : MonoBehaviour
 
         }
 
-        // Draw circle
+        // Draws a line from t
         for (int i = 0; i < circlePoints.Count; i++)
         {
             Vector3 start = circlePoints[i] + transform.position;
