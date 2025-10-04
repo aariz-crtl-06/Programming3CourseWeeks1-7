@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,6 +8,9 @@ public class Player : MonoBehaviour
 {
     public Transform enemyTransform;
     public GameObject bombPrefab;
+
+    public GameObject powerUp;
+
     public List<Transform> asteroidTransforms;
 
     public float numberOfTrailBombs = 3;
@@ -27,34 +31,54 @@ public class Player : MonoBehaviour
     // "j3" describes tasks from journal 3
 
 
-    public float radius = 5f;
-    public float numberOfSides = 6f;
+    public float radius = 2f;
+    public int numberOfSides = 6;
 
-    List<Vector3> circlePoints = new List<Vector3>();
+    public float powerUpRadius = 5f;
+    public int numberOfPowerUps = 6;
 
     void Update()
     {
-        //Green Circle
-        for (int i = 0; i < numberOfSides -1; i++)
-        {
-            float x = Random.Range(1, 10) ;
-            float y = Random.Range(1, 10);
+        float dist = Vector3.Distance(transform.position, enemyTransform.position);
 
-            Vector3 endPoint = new Vector3(x, y, 0);
-            circlePoints.Add (endPoint);
-            Debug.DrawLine(circlePoints[i] + transform.position, circlePoints[i + 1] + transform.position, Color.green);
+        List<Vector3> circlePoints = new List<Vector3>();
+
+        for (int i = 0; i < numberOfSides; i++)
+        {
+            float degrees = 360 / numberOfSides * i;
+            float radians = degrees * Mathf.Deg2Rad;
+
+            float x = Mathf.Cos(radians) * radius;
+            float y = Mathf.Sin(radians) * radius;
+
+            circlePoints.Add(new Vector3(x, y, 0));
+
         }
 
-        
+        // Draw circle
+        for (int i = 0; i < circlePoints.Count; i++)
+        {
+            Vector3 start = circlePoints[i] + transform.position;
 
+            Vector3 end = circlePoints[(i + 1) % circlePoints.Count] + transform.position;
 
+            if (radius >= dist)
+            {
 
+                Debug.DrawLine(start, end, Color.red);
+            }
 
-
-
-
-
+            else
+            {
+                Debug.DrawLine(start, end, Color.green);
+            }
+        }
         // --------------------------------------------------------------
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PowerUpSpawn();
+        }
 
         //j2 - task 1 - part a
         //When b is pressed, run the function and pass it a vector with an offset of 0,1
@@ -255,6 +279,32 @@ public class Player : MonoBehaviour
         transform.position += velocity * Time.deltaTime;
     }
 
+    //Journal 4 - task 2
+    public void PowerUpSpawn()
+    {
+        List<Vector3> powerPoints = new List<Vector3>();
+
+        for (int i = 0; i < numberOfPowerUps; i++)
+        {
+            float degrees = 360 / numberOfSides * i;
+            float radians = degrees * Mathf.Deg2Rad;
+
+            float x = Mathf.Cos(radians) * powerUpRadius;
+            float y = Mathf.Sin(radians) * powerUpRadius;
+
+            powerPoints.Add(new Vector3(x, y, 0));
+
+        }
+
+
+        for (int i = 0; i < powerPoints.Count; i++)
+
+            
+        {
+            Instantiate(powerUp, powerPoints[i] + transform.position, Quaternion.identity);
+
+        }
+    }
     
 
 }
