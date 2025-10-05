@@ -58,19 +58,23 @@ public class Player : MonoBehaviour
 
         }
 
-        // Draws a line from t
+        // Draws a line from the current point to the next, loops it so it creates a full closed off shape
         for (int i = 0; i < circlePoints.Count; i++)
         {
+            //Current point being the 'i' combined with transform position to make it around the ship
             Vector3 start = circlePoints[i] + transform.position;
 
+            //next point being 'i' + 1
             Vector3 end = circlePoints[(i + 1) % circlePoints.Count] + transform.position;
 
+            //Enemy within  the detection zone, if the circle radius is bigger than the distance between player and enemy, make the shape red
             if (radius >= dist)
             {
 
                 Debug.DrawLine(start, end, Color.red);
             }
 
+            //Otherwise its green
             else
             {
                 Debug.DrawLine(start, end, Color.green);
@@ -78,6 +82,9 @@ public class Player : MonoBehaviour
         }
         // --------------------------------------------------------------
 
+
+        //....................TASK 2 FUNCTION WORKS HERE FOR JOURNAL 4...........................
+        //Journal 4 - task 2
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PowerUpSpawn();
@@ -285,25 +292,31 @@ public class Player : MonoBehaviour
     //Journal 4 - task 2
     public void PowerUpSpawn()
     {
+        //List to store the powerups
         List<Vector3> powerPoints = new List<Vector3>();
 
+        //Runs a loop for each powerup
         for (int i = 0; i < numberOfPowerUps; i++)
         {
-            float degrees = 360 / numberOfSides * i;
+            //Convert degrees to radians
+            float degrees = 360 / numberOfPowerUps * i;
             float radians = degrees * Mathf.Deg2Rad;
 
+            //assign the x,y values of each power up in the circle through trig functions
             float x = Mathf.Cos(radians) * powerUpRadius;
             float y = Mathf.Sin(radians) * powerUpRadius;
 
+            //Add these points into the list
             powerPoints.Add(new Vector3(x, y, 0));
 
         }
 
-
+        //Loop to spawn each powerup in the point in the circle on the list
         for (int i = 0; i < powerPoints.Count; i++)
 
             
         {
+            //Spawns the powerup at the point
             Instantiate(powerUp, powerPoints[i] + transform.position, Quaternion.identity);
 
         }

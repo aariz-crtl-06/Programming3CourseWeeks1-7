@@ -12,25 +12,26 @@ public class Moon : MonoBehaviour
 
     float angle;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Journal 4 - task 3
+
+        //Makes the moon contstantly rotate as time passes
         angle += rotateSpeed * Time.deltaTime;
 
-        
+        //Converts the angle degrees into radians
         float radians = angle * Mathf.Deg2Rad;
 
-       
+       //Uses trig functions to set each point along the planet
         float x = Mathf.Cos(radians) * rotateRadius;
         float y = Mathf.Sin(radians) * rotateRadius;
 
-       
+       //Sets the position so the moon keeps moving along the planet, no matter where it is
         transform.position = new Vector3(x, y, 0) + planetTransform.position;
     }
 }
