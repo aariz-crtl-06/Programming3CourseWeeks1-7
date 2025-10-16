@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ba0353dc270c5488656b1c87a0f3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetTransform: {fileID: 4408196811525658, guid: abc125f00ae369940b2c5c0275186637, type: 3}
+  shipTransform: {fileID: 7885953150399167452, guid: 812f9a91e8842da40bc854f4ad3c9504, type: 3}
   rotateSpeed: 50
   rotateRadius: 2
 --- !u!61 &5567850656396648093

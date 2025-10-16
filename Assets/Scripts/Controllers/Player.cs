@@ -13,11 +13,18 @@ public class Player : MonoBehaviour
 
     public List<Transform> asteroidTransforms;
 
+    [SerializeField] private Transform playerShip;
+
     public float numberOfTrailBombs = 3;
     public int bombTrailSpacing;
     float moved = 0;
 
     float maxRange = 2.5f;
+
+    public GameObject magnet;
+
+    public GameObject thrust1;
+    public GameObject thrust2;
 
     [Header("MotionProperties")]
     public float maxSpeed = 5;
@@ -39,6 +46,28 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKey(KeyCode.M))
+        {
+            magnet.SetActive(true);
+        }
+
+        else    
+        {
+            magnet.SetActive(false);
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            thrust1.SetActive(true);
+            thrust2.SetActive(true);
+        }
+
+        else      
+        {
+            thrust1.SetActive(false);
+            thrust2.SetActive(false);
+        }
+
         //to track space between player and enemy
         float dist = Vector3.Distance(transform.position, enemyTransform.position);
 
@@ -145,6 +174,8 @@ public class Player : MonoBehaviour
         //Spawns a bomb at the players position plus the offset that was passed in through the update function
         Vector3 spawnPosition = transform.position+inOffset;
         Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
+        bombb bombScript = bombPrefab.GetComponent<bombb>();
+        bombScript.shipTransform = playerShip;
     }
     //j2 - task 1 - part b
     public void SpawnBombTrail (float spacing)
@@ -152,6 +183,8 @@ public class Player : MonoBehaviour
         //Spawns a bomb at players position - the spacing so they don't overlap. The spacing changes depend on the current number the loop is on
         Vector3 spaced = transform.position - new Vector3(0, spacing);
             Instantiate(bombPrefab, spaced, Quaternion.identity);
+        bombb bombScript = bombPrefab.GetComponent<bombb>();
+        bombScript.shipTransform = playerShip;
     }
 
     //j2 - task 2
@@ -190,6 +223,8 @@ public class Player : MonoBehaviour
         Vector3 bombCorner = transform.position + inDistance;
 
         Instantiate(bombPrefab, bombCorner, Quaternion.identity);
+        bombb bombScript = bombPrefab.GetComponent<bombb>();
+        bombScript.shipTransform = playerShip;
     }
 
     //j2 - task 3

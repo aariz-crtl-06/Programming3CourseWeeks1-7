@@ -7,6 +7,8 @@ public class Blackhole : MonoBehaviour
 
     int numberOfSides = 16;
     float radius = 5f;
+
+    bool pulledIn = false;
     void Start()
     {
         
@@ -33,6 +35,7 @@ public class Blackhole : MonoBehaviour
 
         }
 
+
         // Draws a line from the current point to the next, loops it so it creates a full closed off shape
         for (int i = 0; i < circlePoints.Count; i++)
         {
@@ -42,19 +45,37 @@ public class Blackhole : MonoBehaviour
             //next point being 'i' + 1
             Vector3 end = circlePoints[(i + 1) % circlePoints.Count] + transform.position;
 
-            //Visual guide to black hole radius, once the player enters the radius, they get pulled into the black hole
-            if (radius >= dist)
-            {
 
-                Debug.DrawLine(start, end, Color.red);
-                playPos.position = Vector3.MoveTowards(playPos.position, transform.position, Time.deltaTime);
+            //Shows if player is in or out of the black hole radius
+            if ( radius >= dist)
+            {
+            Debug.DrawLine(start, end, Color.red);
             }
 
-            //Otherwise its green
             else
             {
                 Debug.DrawLine(start, end, Color.green);
             }
+
+        }
+
+        //If the player is within the radius, then it gets pulled in
+        if (radius >= dist)
+            {
+               pulledIn = true;
+            }
+
+
+        //The player can hold space to engage thrusters and escape the black hole
+        if (Input.GetKey(KeyCode.Space))
+            {
+                pulledIn = false;
+            }
+
+        //Pulls the player towards the black hole if they are in the radius and not holding space
+        if (pulledIn == true)
+            {
+                playPos.position = Vector3.MoveTowards(playPos.position, transform.position, Time.deltaTime * 5);
         }
     }
 }
